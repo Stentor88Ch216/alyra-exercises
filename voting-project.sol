@@ -4,12 +4,13 @@ pragma solidity >=0.7.0 <0.9.0;
 import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/access/Ownable.sol";
 
 /*
-* @author Thomas
+* @author Thomas D
 * @notice Alyra "Voting" project
 */
 
 contract Voting is Ownable {
 
+    // The workflow status is used across the contract to enable or disable some functionnalities.
     enum WorkflowStatus {
         RegisteringVoters,
         ProposalsRegistrationStarted,
@@ -30,9 +31,7 @@ contract Voting is Ownable {
         uint voteCount;
     }
 
-
     WorkflowStatus public status = WorkflowStatus.RegisteringVoters;
-    mapping(address => Voter) voters;
     Proposal[] proposals;
     uint winnerId; // The array index of the winning proposal
 
@@ -44,7 +43,6 @@ contract Voting is Ownable {
 
 
     // The next 4 functions are used by the owner of the voting process (the one who deployed the contract) to change the workflow status.
-    // The workflow status is then used across the contract to enable or disable some functionnalities.
     function startProposalsRegistrations() public onlyOwner {
         changeStatus(WorkflowStatus.ProposalsRegistrationStarted);
     }
