@@ -106,6 +106,7 @@ contract Voting is Ownable {
 
         proposals[_votedProposalId].voteCount ++;
         voters[msg.sender].hasVoted = true;
+        voters[msg.sender].votedProposalId = _votedProposalId;
         emit Voted(msg.sender, _votedProposalId);
     }
 
@@ -116,7 +117,7 @@ contract Voting is Ownable {
         for(uint i=0; i < proposals.length; i++) {
             if(proposals[i].voteCount > proposals[winnerId].voteCount) {
                 winnerId = i;
-                // TODO : implement the case when there are several winning proposals
+                // TODO : implement the following case : there are several winning proposals
             }
         }
         changeStatus(WorkflowStatus.VotesTallied);
