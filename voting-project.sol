@@ -34,7 +34,7 @@ contract Voting is Ownable {
 
     WorkflowStatus public status = WorkflowStatus.RegisteringVoters;
     mapping(address => Voter) voters;
-    Proposal[] proposals;
+    Proposal[] proposals; // Array of proposals
     uint winnerId; // The array index of the winning proposal
 
 
@@ -111,13 +111,14 @@ contract Voting is Ownable {
     }
 
     
+    /// This function implements the method for choosing a winner
     function declareWinner() external onlyOwner {
         require(status == WorkflowStatus.VotingSessionEnded, "The voting session has not been ended yet!");
 
         for(uint i=0; i < proposals.length; i++) {
             if(proposals[i].voteCount > proposals[winnerId].voteCount) {
                 winnerId = i;
-                // TODO : implement the following case : there are several winning proposals
+                //-TODO: implement the following case : there are several winning proposals
             }
         }
         changeStatus(WorkflowStatus.VotesTallied);
